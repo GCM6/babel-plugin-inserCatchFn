@@ -12,11 +12,14 @@ const babelPlugin = declare((api, ) => {
                 // console.log(path.node.specifiers);
                 // console.log("path.scope.block.body----->", path.scope.block.body);
                 // console.log("tryCatchAST",path.node.declaration);
+                //根据当前作用域获取到节点的body
                 const parentBody = path.scope.block.body
+                // 过滤节点只是export default节点的ast
                 const exportsDefaultArr = parentBody?.filter(it => it?.type === 'ExportDefaultDeclaration')
                 // console.log("exportsDefaultArr",exportsDefaultArr);
                 // return
                 // const body = path.scope.block.body[0].declaration.properties
+                // 获取method里面的方法，判断啥对象属性的类型ObjectProperty
                 const body = exportsDefaultArr[0].declaration.properties
                 for(let i =0 ;i< body.length; i++) {
                     if(body[i].type === 'ObjectProperty' && body[i].key.name === 'methods') {
@@ -34,6 +37,7 @@ const handlerCatch =(body, state) => {
         insertAst(it.body.body, state)
     })
 }
+// 判断节点类型是try catch然后对catch里面的body进行注入
 const insertAst = (body, state) => {
     // console.log("body",body);
     body.forEach(it => {
