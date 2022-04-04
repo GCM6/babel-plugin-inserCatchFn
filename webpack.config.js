@@ -3,9 +3,11 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 module.exports = {
     mode: 'development',
-    entry: './src/main.js',
+    entry: {
+        bundle: path.resolve(__dirname, 'src/main.js')
+    },
     output: {
-        filename: 'buind.js',
+        filename: '[name].js',
         path: path.resolve(__dirname, './dist')
     },
     module: {
